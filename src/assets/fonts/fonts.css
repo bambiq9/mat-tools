@@ -1,0 +1,9 @@
+@font-face {
+  font-family: Roboto;
+  src:
+    local("Roboto"),
+    url(./Roboto-VariableFont_wdth,wghtRoboto-VariableFont_wdth,wght.ttf)
+      format("truetype-variations");
+  font-weight: 300 400 500 700;
+  font-display: swap;
+}
