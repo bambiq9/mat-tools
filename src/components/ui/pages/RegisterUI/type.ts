@@ -1,7 +1,7 @@
-import type { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction, SyntheticEvent } from "react";
 
 export type RegisterUIProps = {
-  handleSubmit: () => void;
+  handleSubmit: (e: SyntheticEvent) => void;
   email: string;
   setEmail: Dispatch<SetStateAction<string>>;
   password: string;

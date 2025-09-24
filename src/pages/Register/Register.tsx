@@ -1,10 +1,24 @@
 import { RegisterUI } from "@components/ui/pages/RegisterUI/RegisterUI";
-import { useState, type FC } from "react";
+import { useDispatch } from "@services/store";
+import { registerUser } from "@services/userSlice";
+import type { TRegisterData } from "@utils/types";
+import { useState, type FC, type SyntheticEvent } from "react";
 
 export const Register: FC = () => {
+  const dispatch = useDispatch();
+
   const [email, setEtmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleSubmit = () => {};
+  const handleSubmit = (e: SyntheticEvent) => {
+    e.preventDefault();
+
+    const userData: TRegisterData = {
+      name: "mock",
+      email,
+      password,
+    };
+    dispatch(registerUser(userData));
+  };
 
   return (
     <RegisterUI
