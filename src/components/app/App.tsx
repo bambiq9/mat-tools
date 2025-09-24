@@ -1,4 +1,5 @@
 import { Route, Routes, useLocation } from "react-router-dom";
+import { Register } from "@pages/Register/Register";
 import "./App.css";
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
     <div>
       <Routes location={background || location}>
         <Route path="/" element={<App />} />
-        <Route path="register" element={null} />
+        <Route path="register" element={<Register />} />
         <Route path="login" element={null} />
         <Route path="insulation" element={null}>
           <Route path="list" element={null}>
