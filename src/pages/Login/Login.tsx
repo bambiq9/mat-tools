@@ -1,10 +1,10 @@
-import { RegisterUI } from "@components/ui/pages/RegisterUI/RegisterUI";
+import { LoginUI } from "@components/ui/pages/LoginUI/LoginUI";
 import { useDispatch } from "@services/store";
-import { registerUser } from "@services/userSlice";
-import type { TRegisterData } from "@utils/types";
+import { loginUser } from "@services/userSlice";
+import type { TUserCredData } from "@utils/types";
 import { useState, type FC, type SyntheticEvent } from "react";
 
-export const Register: FC = () => {
+export const Login: FC = () => {
   const dispatch = useDispatch();
 
   const [email, setEtmail] = useState("");
@@ -13,16 +13,15 @@ export const Register: FC = () => {
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
 
-    const userData: TRegisterData = {
-      name: "mock",
+    const userData: TUserCredData = {
       email,
       password,
     };
-    dispatch(registerUser(userData));
+    dispatch(loginUser(userData));
   };
 
   return (
-    <RegisterUI
+    <LoginUI
       handleSubmit={handleSubmit}
       email={email}
       setEmail={setEtmail}

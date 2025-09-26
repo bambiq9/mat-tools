@@ -1,15 +1,15 @@
 import type { FC } from "react";
-import type { RegisterUIProps } from "./type";
+import type { LoginUIProps } from "./type";
 import { Button, Input } from "@mui/material";
 
-export const RegisterUI: FC<RegisterUIProps> = ({
+export const LoginUI: FC<LoginUIProps> = ({
   handleSubmit,
   setEmail,
   setPassword,
 }) => (
   <main>
-    <h2>Регстрация</h2>
-    <form name="register" onSubmit={handleSubmit}>
+    <h2>Вход</h2>
+    <form name="login" onSubmit={handleSubmit}>
       <Input
         onChange={(e) => setEmail(e.target.value)}
         type="email"
@@ -22,7 +22,7 @@ export const RegisterUI: FC<RegisterUIProps> = ({
         name="password"
         placeholder="password"
       />
-      <Button type="submit">Зарегистрироваться</Button>
+      <Button type="submit">Войти</Button>
     </form>
   </main>
 );

@@ -1,6 +1,7 @@
 import { Route, Routes, useLocation } from "react-router-dom";
-import { Register } from "@pages/Register/Register";
+import { Register } from "@pages/Register";
 import "./App.css";
+import { Login } from "@pages/Login";
 
 function App() {
   const location = useLocation();
@@ -11,7 +12,7 @@ function App() {
       <Routes location={background || location}>
         <Route path="/" element={<App />} />
         <Route path="register" element={<Register />} />
-        <Route path="login" element={null} />
+        <Route path="login" element={<Login />} />
         <Route path="insulation" element={null}>
           <Route path="list" element={null}>
             <Route path="compare" element={null} />

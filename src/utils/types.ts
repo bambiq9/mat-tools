@@ -84,8 +84,11 @@ export type TUser = {
   role: UserRole;
 };
 
-export type TRegisterData = {
-  name: string;
+export type TUserCredData = {
   email: string;
   password: string;
+};
+
+export type TRegisterData = TUserCredData & {
+  name: string;
 };
