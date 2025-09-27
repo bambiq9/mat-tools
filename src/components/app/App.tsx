@@ -2,13 +2,37 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { Register } from "@pages/Register";
 import "./App.css";
 import { Login } from "@pages/Login";
+import { Button } from "@mui/material";
+import { useDispatch } from "@services/store";
+import { logoutUserApi } from "@utils/api";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useState, useEffect } from "react";
 
 function App() {
   const location = useLocation();
   const background = location.state?.background;
 
+  const [authState, setAuthState] = useState(false);
+
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthState(true);
+      } else {
+        setAuthState(false);
+      }
+    });
+  }, []);
+
+  const dispatch = useDispatch();
+
+  const logoutHandler = () => dispatch(logoutUserApi);
+
   return (
     <div>
+      <span>{authState ? "Signed in" : "Signed out"}</span>
+      <Button onClick={logoutHandler}>Logout</Button>
       <Routes location={background || location}>
         <Route path="/" element={<App />} />
         <Route path="register" element={<Register />} />
