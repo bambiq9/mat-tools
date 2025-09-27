@@ -1,9 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { TUser } from "@utils/types";
+import {
+  loginUserEmailApi,
+  logoutUserApi,
+  registerUserEmailApi,
+} from "@utils/api";
+import type { TRegisterData, TUser, TUserCredData } from "@utils/types";
 
-export const registerUser = createAsyncThunk("registerUser", async () => {});
-export const loginUser = createAsyncThunk("loginUser", async () => {});
-export const logoutUser = createAsyncThunk("logoutUser", async () => {});
+export const registerUser = createAsyncThunk(
+  "registerUser",
+  async (userData: TRegisterData) => await registerUserEmailApi(userData),
+);
+export const loginUser = createAsyncThunk(
+  "loginUser",
+  async (userData: TUserCredData) => await loginUserEmailApi(userData),
+);
+export const logoutUser = createAsyncThunk(
+  "logoutUser",
+  async () => await logoutUserApi(),
+);
 
 type UserState = {
   userData: TUser | null;
@@ -24,16 +38,43 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    [registerUser, loginUser, loginUser];
     builder
-      .addCase(registerUser.pending, (state, action) => {})
-      .addCase(registerUser.fulfilled, (state, action) => {})
-      .addCase(registerUser.rejected, (state, action) => {})
-      .addCase(loginUser.pending, (state, action) => {})
-      .addCase(loginUser.fulfilled, (state, action) => {})
-      .addCase(loginUser.rejected, (state, action) => {})
-      .addCase(logoutUser.pending, (state, action) => {})
-      .addCase(logoutUser.fulfilled, (state, action) => {})
-      .addCase(logoutUser.rejected, (state, action) => {});
+      .addCase(registerUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = undefined;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        const { uid, displayName, email } = action.payload;
+        state.isLoading = false;
+        state.isAuth = true;
+        state.userData = {
+          id: uid,
+          name: displayName || uid,
+          email: email || "",
+          role: "admin",
+        };
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(loginUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = undefined;
+      })
+      .addCase(loginUser.fulfilled, (state) => {
+        state.isLoading = false;
+        state.isAuth = true;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.isLoading = false;
+        state.userData = initialState.userData;
+      });
   },
 });
 
