@@ -81,7 +81,7 @@ export type TUser = {
   id: string;
   name: string;
   email: string;
-  role: UserRole;
+  role: UserRole[];
 };
 
 export type TUserCredData = {
@@ -89,6 +89,9 @@ export type TUserCredData = {
   password: string;
 };
 
-export type TRegisterData = TUserCredData & {
+export type TUserInfoData = {
   name: string;
+  role: UserRole[];
 };
+
+export type TRegisterData = TUserCredData & TUserInfoData;

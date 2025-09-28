@@ -4,9 +4,9 @@ import "./App.css";
 import { Login } from "@pages/Login";
 import { Button } from "@mui/material";
 import { useDispatch } from "@services/store";
-import { logoutUserApi } from "@utils/api";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
+import { logoutUser } from "@services/userSlice";
 
 function App() {
   const location = useLocation();
@@ -27,7 +27,7 @@ function App() {
 
   const dispatch = useDispatch();
 
-  const logoutHandler = () => dispatch(logoutUserApi);
+  const logoutHandler = () => dispatch(logoutUser());
 
   return (
     <div>
