@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 import { useDispatch } from "@services/store";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
-import { logoutUser } from "@services/userSlice";
+import { getUser, logoutUser } from "@services/userSlice";
 
 function App() {
   const location = useLocation();
@@ -19,6 +19,7 @@ function App() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setAuthState(true);
+        dispatch(getUser(user.uid));
       } else {
         setAuthState(false);
       }
@@ -34,7 +35,7 @@ function App() {
       <span>{authState ? "Signed in" : "Signed out"}</span>
       <Button onClick={logoutHandler}>Logout</Button>
       <Routes location={background || location}>
-        <Route path="/" element={<App />} />
+        {/* <Route path="/" element={<App />} /> */}
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
         <Route path="insulation" element={null}>

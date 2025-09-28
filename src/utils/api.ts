@@ -4,7 +4,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 import type { TRegisterData, TUser, TUserCredData } from "./types";
 
 export const createNewUserApi = async (data: TUser) => {
@@ -73,4 +73,15 @@ export const logoutUserApi = async () => {
     .catch((error) => {
       return Promise.reject(error);
     });
+};
+
+export const getUserApi = async (userId: string) => {
+  try {
+    const docRef = doc(db, "users", userId);
+    const docSnap = await getDoc(docRef);
+
+    return docSnap.data();
+  } catch (error) {
+    return Promise.reject(error);
+  }
 };
