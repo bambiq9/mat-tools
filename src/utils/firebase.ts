@@ -1,8 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAMuE0dUG9ceJ4JWqDUmn7Pxpt6nLy6g-g",
+  apiKey: import.meta.env.VITE_FIREBASE_APIKEY,
   authDomain: "mat-tools-dfd27.firebaseapp.com",
   projectId: "mat-tools-dfd27",
   storageBucket: "mat-tools-dfd27.firebasestorage.app",
@@ -12,3 +13,4 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const db = getFirestore(app);
