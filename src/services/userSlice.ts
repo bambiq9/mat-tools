@@ -45,14 +45,14 @@ const userSlice = createSlice({
         state.error = undefined;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        const { id, name, email } = action.payload;
+        const { id, name, email, role } = action.payload;
         state.isLoading = false;
         state.isAuth = true;
         state.userData = {
           id,
           name,
           email,
-          role: ["assembly"],
+          role,
         };
       })
       .addCase(registerUser.rejected, (state, action) => {

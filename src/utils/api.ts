@@ -38,7 +38,10 @@ export const registerUserEmailApi = async (data: TRegisterData) => {
 
     const user = {
       id,
-      ...data,
+      email,
+      password,
+      name,
+      role,
     };
 
     createNewUserApi(user);

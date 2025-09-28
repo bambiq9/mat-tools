@@ -7,18 +7,19 @@ import { useState, type FC, type SyntheticEvent } from "react";
 export const Register: FC = () => {
   const dispatch = useDispatch();
 
+  const [name, setName] = useState("");
   const [email, setEtmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState<UserRole[]>(["guest"]);
+  const [role, setRole] = useState<UserRole>("assembly");
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
 
     const userData: TRegisterData = {
-      name: "mock",
+      name,
       email,
       password,
-      role,
+      role: [role],
     };
     dispatch(registerUser(userData));
   };
@@ -26,10 +27,14 @@ export const Register: FC = () => {
   return (
     <RegisterUI
       handleSubmit={handleSubmit}
+      name={name}
+      setName={setName}
       email={email}
       setEmail={setEtmail}
       password={password}
       setPassword={setPassword}
+      role={role}
+      setRole={setRole}
     />
   );
 };
