@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
+  getUserApi,
   loginUserEmailApi,
   logoutUserApi,
   registerUserEmailApi,
@@ -17,6 +18,10 @@ export const loginUser = createAsyncThunk(
 export const logoutUser = createAsyncThunk(
   "logoutUser",
   async () => await logoutUserApi(),
+);
+export const getUser = createAsyncThunk(
+  "getUser",
+  async (userId: string) => await getUserApi(userId),
 );
 
 type UserState = {
@@ -44,16 +49,9 @@ const userSlice = createSlice({
         state.isLoading = true;
         state.error = undefined;
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
-        const { id, name, email, role } = action.payload;
+      .addCase(registerUser.fulfilled, (state) => {
         state.isLoading = false;
         state.isAuth = true;
-        state.userData = {
-          id,
-          name,
-          email,
-          role,
-        };
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -74,6 +72,31 @@ const userSlice = createSlice({
       .addCase(logoutUser.fulfilled, (state) => {
         state.isLoading = false;
         state.userData = initialState.userData;
+      })
+      .addCase(getUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = undefined;
+      })
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+
+        if (action.payload?.user) {
+          const { id, name, email, role } = action.payload.user;
+          state.isAuth = true;
+          state.userData = {
+            id,
+            name,
+            email,
+            role,
+          };
+        } else {
+          state.isAuth = false;
+          state.userData = initialState.userData;
+        }
+      })
+      .addCase(getUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
       });
   },
 });
