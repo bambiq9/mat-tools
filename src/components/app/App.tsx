@@ -6,6 +6,7 @@ import { useDispatch } from "@services/store";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { getUser, logoutUser } from "@services/userSlice";
+import { Header } from "@components/Header";
 
 function App() {
   const location = useLocation();
@@ -38,6 +39,7 @@ function App() {
         alignItems: "center",
       }}
     >
+      <Header />
       <span>{authState ? "Signed in" : "Signed out"}</span>
       <Button onClick={logoutHandler}>Logout</Button>
       <Routes location={background || location}>

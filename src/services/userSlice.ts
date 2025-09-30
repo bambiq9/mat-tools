@@ -42,6 +42,11 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {},
+  selectors: {
+    selectIsLoading: (state) => state.isLoading,
+    selectIsAuth: (state) => state.isAuth,
+    selectUser: (state) => state.userData,
+  },
   extraReducers: (builder) => {
     [registerUser, loginUser, loginUser];
     builder
@@ -101,4 +106,6 @@ const userSlice = createSlice({
   },
 });
 
+export const { selectIsLoading, selectIsAuth, selectUser } =
+  userSlice.selectors;
 export default userSlice;
