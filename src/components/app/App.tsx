@@ -1,8 +1,7 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Register } from "@pages/Register";
-import "./App.css";
 import { Login } from "@pages/Login";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useDispatch } from "@services/store";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
@@ -31,7 +30,14 @@ function App() {
   const logoutHandler = () => dispatch(logoutUser());
 
   return (
-    <div>
+    <Box
+      sx={{
+        width: "100vw",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <span>{authState ? "Signed in" : "Signed out"}</span>
       <Button onClick={logoutHandler}>Logout</Button>
       <Routes location={background || location}>
@@ -55,7 +61,7 @@ function App() {
           <Route path="/insulation/list/:id/edit" element={null} />
         </Routes>
       )}
-    </div>
+    </Box>
   );
 }
 
