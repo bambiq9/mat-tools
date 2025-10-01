@@ -7,6 +7,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
 import { getUser, logoutUser } from "@services/userSlice";
 import { Header } from "@components/Header";
+import { ProtectedRoute } from "@components/ProtectedRoute";
 
 function App() {
   const location = useLocation();
@@ -32,9 +33,22 @@ function App() {
     >
       <Header />
       <Routes location={background || location}>
-        {/* <Route path="/" element={<App />} /> */}
-        <Route path="register" element={<Register />} />
-        <Route path="login" element={<Login />} />
+        <Route
+          path="register"
+          element={
+            <ProtectedRoute isUnAuthOnly>
+              <Register />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="login"
+          element={
+            <ProtectedRoute isUnAuthOnly>
+              <Login />
+            </ProtectedRoute>
+          }
+        />
         <Route path="insulation" element={null}>
           <Route path="list" element={null}>
             <Route path="compare" element={null} />
