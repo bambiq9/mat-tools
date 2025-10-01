@@ -54,7 +54,7 @@ export const LoginUI: FC<LoginUIProps> = ({
             variant="contained"
             sx={{ p: 2, fontSize: "1.1em" }}
           >
-            Зарегистрироваться
+            Войти
           </Button>
         </Stack>
       </Box>
