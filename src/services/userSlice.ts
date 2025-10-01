@@ -42,6 +42,11 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {},
+  selectors: {
+    selectIsLoading: (state) => state.isLoading,
+    selectIsAuth: (state) => state.isAuth,
+    selectUser: (state) => state.userData,
+  },
   extraReducers: (builder) => {
     [registerUser, loginUser, loginUser];
     builder
@@ -62,8 +67,8 @@ const userSlice = createSlice({
         state.error = undefined;
       })
       .addCase(loginUser.fulfilled, (state) => {
-        state.isLoading = false;
         state.isAuth = true;
+        state.isLoading = false;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -71,6 +76,7 @@ const userSlice = createSlice({
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.isLoading = false;
+        state.isAuth = false;
         state.userData = initialState.userData;
       })
       .addCase(getUser.pending, (state) => {
@@ -78,8 +84,6 @@ const userSlice = createSlice({
         state.error = undefined;
       })
       .addCase(getUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-
         if (action.payload?.user) {
           const { id, name, email, role } = action.payload.user;
           state.isAuth = true;
@@ -93,6 +97,8 @@ const userSlice = createSlice({
           state.isAuth = false;
           state.userData = initialState.userData;
         }
+
+        state.isLoading = false;
       })
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -101,4 +107,6 @@ const userSlice = createSlice({
   },
 });
 
+export const { selectIsLoading, selectIsAuth, selectUser } =
+  userSlice.selectors;
 export default userSlice;
