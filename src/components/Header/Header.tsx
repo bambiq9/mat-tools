@@ -1,6 +1,14 @@
 import { HeaderUI } from "@components/ui/HeaderUI";
+import { HeaderAuthMenuUI } from "@components/ui/HeaderUI/HeaderAuthMenuUI";
+import { HeaderUserMenuUI } from "@components/ui/HeaderUI/HeaderUserMenuUI";
+import { Box, CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "@services/store";
-import { logoutUser, selectIsAuth, selectUser } from "@services/userSlice";
+import {
+  logoutUser,
+  selectIsAuth,
+  selectIsLoading,
+  selectUser,
+} from "@services/userSlice";
 import type { FC } from "react";
 
 const links = [
@@ -13,23 +21,39 @@ const links = [
     label: "Изоляция",
   },
   {
-    to: "scheme-filter",
-    label: "Фильтр чертежей",
+    to: "scheme-list",
+    label: "Список чертежей",
   },
 ];
 
 export const Header: FC = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
+  const isLoading = useSelector(selectIsLoading);
   const user = useSelector(selectUser);
   const logoutHandler = () => dispatch(logoutUser());
 
   return (
     <HeaderUI
       links={links}
-      isAuth={isAuth}
-      user={user}
-      logoutHandler={logoutHandler}
+      userMenu={
+        isLoading ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              minWidth: "20%",
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        ) : user && isAuth ? (
+          <HeaderUserMenuUI logoutHandler={logoutHandler} user={user} />
+        ) : (
+          <HeaderAuthMenuUI />
+        )
+      }
     />
   );
 };

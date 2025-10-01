@@ -1,4 +1,6 @@
 import type { TUser } from "@utils/types";
+import type { FC, ReactNode } from "react";
+import type { THeaderUserMenuUIProps } from "./HeaderUserMenuUI/type";
 
 export type THeaderLink = {
   to: string;
@@ -7,7 +9,5 @@ export type THeaderLink = {
 
 export type THeaderUIProps = {
   links: THeaderLink[];
-  isAuth: boolean;
-  user: TUser | null;
-  logoutHandler: () => void;
+  userMenu: ReactNode;
 };

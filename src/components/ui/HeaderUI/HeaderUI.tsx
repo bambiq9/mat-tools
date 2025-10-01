@@ -1,15 +1,9 @@
-import { AppBar, Box, Button, Link, Toolbar } from "@mui/material";
+import { AppBar, Button, Toolbar } from "@mui/material";
 import type { FC } from "react";
 import { NavLink } from "react-router-dom";
 import type { THeaderUIProps } from "./type";
-import { HeaderUserUI } from "../HeaderUserUI";
 
-export const HeaderUI: FC<THeaderUIProps> = ({
-  links,
-  isAuth,
-  user,
-  logoutHandler,
-}) => {
+export const HeaderUI: FC<THeaderUIProps> = ({ links, userMenu }) => {
   return (
     <AppBar
       color="transparent"
@@ -33,7 +27,7 @@ export const HeaderUI: FC<THeaderUIProps> = ({
           </NavLink>
         ))}
       </Toolbar>
-      <HeaderUserUI isAuth={isAuth} user={user} logoutHandler={logoutHandler} />
+      {userMenu}
     </AppBar>
   );
 };

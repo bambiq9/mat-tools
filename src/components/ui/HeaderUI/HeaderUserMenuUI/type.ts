@@ -1,7 +1,6 @@
 import type { TUser } from "@utils/types";
 
-export type THeaderUserUIProps = {
-  isAuth: boolean;
-  user: TUser | null;
+export type THeaderUserMenuUIProps = {
   logoutHandler: () => void;
+  user: TUser | null;
 };
