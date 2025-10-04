@@ -51,12 +51,12 @@ export type TBlueprint = {
 export type TAssemblyUnitPart = {
   id: string;
   name: string;
-  blueprint: TBlueprint;
-  date: Date;
+  blueprint?: TBlueprint;
+  date?: Date;
 };
 
 export type TAssemblyUnitParts = {
-  part: TAssemblyUnitPart;
+  partId: string;
   quantity: number;
 };
 
@@ -65,7 +65,8 @@ export type TAssemblyUnit = {
   name: string;
   parts: TAssemblyUnitParts[];
   blueprint: TBlueprint;
-  date: Date;
+  description?: string;
+  date?: Date;
 };
 
 //

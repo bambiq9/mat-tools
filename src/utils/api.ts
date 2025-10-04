@@ -4,8 +4,14 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { setDoc, doc, getDoc } from "firebase/firestore";
-import type { TRegisterData, TUser, TUserCredData } from "./types";
+import { setDoc, doc, getDoc, getDocs, collection } from "firebase/firestore";
+import type {
+  TAssemblyUnit,
+  TRegisterData,
+  TUser,
+  TUserCredData,
+} from "./types";
+import { isAssemblyUnit } from "./helpers";
 
 export const createNewUserApi = async (data: TUser) => {
   const { id, email, name, role } = data;
@@ -85,3 +91,35 @@ export const getUserApi = async (userId: string) => {
     return Promise.reject(error);
   }
 };
+
+export const getAssemblyUnitsListApi = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, "assemblyUnits"));
+    const units: TAssemblyUnit[] = [];
+    querySnapshot.docs.forEach((doc) => {
+      const data = doc.data();
+      const date = data.date.toDate().toISOString();
+      const blueprintDate = (data.blueprint.date = doc
+        .data()
+        .blueprint.date.toDate()
+        .toISOString());
+
+      const unit = {
+        ...data,
+        date,
+        blueprint: {
+          ...data.blueprint,
+          date: blueprintDate,
+        },
+      };
+
+      if (isAssemblyUnit(unit)) units.push(unit);
+    });
+
+    return units;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const getAssemblyUnitPartsListApi = async () => {};
