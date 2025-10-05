@@ -37,8 +37,8 @@ export const isAssemblyUnitPartsArray = (
 export const isAssemblyUnitPart = (data: any): data is TAssemblyUnitPart => {
   return (
     data &&
-    data.id === "string" &&
-    data.name === "string" &&
+    typeof data.id === "string" &&
+    typeof data.name === "string" &&
     isBlueprint(data.blueprint) &&
     isDate(data.date)
   );

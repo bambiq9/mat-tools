@@ -7,11 +7,12 @@ import {
 import { setDoc, doc, getDoc, getDocs, collection } from "firebase/firestore";
 import type {
   TAssemblyUnit,
+  TAssemblyUnitPart,
   TRegisterData,
   TUser,
   TUserCredData,
 } from "./types";
-import { isAssemblyUnit } from "./helpers";
+import { isAssemblyUnit, isAssemblyUnitPart } from "./helpers";
 
 export const createNewUserApi = async (data: TUser) => {
   const { id, email, name, role } = data;
@@ -122,4 +123,35 @@ export const getAssemblyUnitsListApi = async () => {
   }
 };
 
-export const getAssemblyUnitPartsListApi = async () => {};
+export const getAssemblyUnitPartsListApi = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, "assemblyUnitParts"));
+    const parts: TAssemblyUnitPart[] = [];
+
+    querySnapshot.docs.forEach((doc) => {
+      const data = doc.data();
+      const date = data.date.toDate().toISOString();
+      const blueprintDate = (data.blueprint.date = doc
+        .data()
+        .blueprint.date.toDate()
+        .toISOString());
+
+      const part = {
+        ...data,
+        date,
+        blueprint: {
+          ...data.blueprint,
+          date: blueprintDate,
+        },
+      };
+      console.log(part);
+      console.log(isAssemblyUnitPart(part));
+
+      if (isAssemblyUnitPart(part)) parts.push(part);
+    });
+
+    return parts;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};

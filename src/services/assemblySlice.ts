@@ -1,14 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAssemblyUnitsListApi } from "@utils/api";
+import {
+  getAssemblyUnitPartsListApi,
+  getAssemblyUnitsListApi,
+} from "@utils/api";
 import type { TAssemblyUnit, TAssemblyUnitPart } from "@utils/types";
 
 export const getAssemblyUnitsList = createAsyncThunk(
   "getAssmblyUnitsList",
   async () => await getAssemblyUnitsListApi(),
 );
-// export const getAssemblyUnitPartsList = createAsyncThunk('getAssemblyUnitPartsList', async () =>
-//   await getAssemblyUnitPartsListApi()
-// );
+
+export const getAssemblyUnitPartsList = createAsyncThunk(
+  "getAssemblyUnitPartsList",
+  async () => await getAssemblyUnitPartsListApi(),
+);
 
 type TAssemblyState = {
   isLoading: boolean;
@@ -41,10 +46,21 @@ const assemblySlice = createSlice({
       })
       .addCase(getAssemblyUnitsList.fulfilled, (state, action) => {
         state.assemblyUnitsList = action.payload;
-        console.log(action.payload);
         state.isLoading = false;
       })
       .addCase(getAssemblyUnitsList.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(getAssemblyUnitPartsList.pending, (state) => {
+        state.isLoading = true;
+        state.error = undefined;
+      })
+      .addCase(getAssemblyUnitPartsList.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.assemblyUnitPartsList = action.payload;
+      })
+      .addCase(getAssemblyUnitPartsList.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
       });
