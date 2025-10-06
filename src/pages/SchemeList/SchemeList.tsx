@@ -1,9 +1,9 @@
 import { SchemeListUI } from "@components/ui/pages/SchemeListUI";
 import { useEffect, useState, type FC } from "react";
-import type { TSchemeListProps } from "./type";
 import type { TAssemblyUnitPart } from "@utils/types";
 import { useDispatch, useSelector } from "@services/store";
 import { getAssemblyUnitPartsList } from "@services/assemblySlice";
+import { Link, useLocation } from "react-router-dom";
 
 const parts: TAssemblyUnitPart[] = [
   {
@@ -37,8 +37,9 @@ const parts: TAssemblyUnitPart[] = [
   },
 ];
 
-export const SchemeList: FC<TSchemeListProps> = () => {
+export const SchemeList: FC = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(getAssemblyUnitPartsList());
@@ -66,6 +67,7 @@ export const SchemeList: FC<TSchemeListProps> = () => {
       parts={filteredParts}
       filter={filter}
       filterHandler={setFilter}
+      locationState={{ background: location }}
     />
   );
 };

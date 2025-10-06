@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
+  getAssemblyUnitPartApi,
   getAssemblyUnitPartsListApi,
   getAssemblyUnitsListApi,
 } from "@utils/api";
@@ -13,6 +14,11 @@ export const getAssemblyUnitsList = createAsyncThunk(
 export const getAssemblyUnitPartsList = createAsyncThunk(
   "getAssemblyUnitPartsList",
   async () => await getAssemblyUnitPartsListApi(),
+);
+
+export const getAssemblyUnitPart = createAsyncThunk(
+  "getAssemblyUnitPart",
+  async (partId: string) => await getAssemblyUnitPartApi(partId),
 );
 
 type TAssemblyState = {
@@ -37,7 +43,9 @@ const assemblySlice = createSlice({
   name: "assembly",
   initialState,
   reducers: {},
-  selectors: {},
+  selectors: {
+    selectUnitPart: (state) => state.assemblyUnitPart,
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAssemblyUnitsList.pending, (state) => {
@@ -63,8 +71,21 @@ const assemblySlice = createSlice({
       .addCase(getAssemblyUnitPartsList.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
+      })
+      .addCase(getAssemblyUnitPart.pending, (state) => {
+        state.isLoading = true;
+        state.error = undefined;
+      })
+      .addCase(getAssemblyUnitPart.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.assemblyUnitPart = action.payload;
+      })
+      .addCase(getAssemblyUnitPart.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
       });
   },
 });
 
+export const { selectUnitPart } = assemblySlice.selectors;
 export default assemblySlice;

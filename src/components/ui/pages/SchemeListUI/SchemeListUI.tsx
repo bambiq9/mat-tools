@@ -10,11 +10,13 @@ import {
 import type { FC } from "react";
 import type { TSchemeListUIProps } from "./type";
 import { BuildCircle } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 export const SchemeListUI: FC<TSchemeListUIProps> = ({
   parts,
   filter,
   filterHandler,
+  locationState,
 }) => {
   return (
     <Box>
@@ -30,6 +32,9 @@ export const SchemeListUI: FC<TSchemeListUIProps> = ({
           <List>
             {parts.map((part) => (
               <ListItemButton
+                component={Link}
+                to={`part/${part.id}`}
+                state={locationState}
                 key={part.id}
                 sx={{ gap: 2, p: 2, borderRadius: 4 }}
               >

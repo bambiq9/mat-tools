@@ -144,13 +144,38 @@ export const getAssemblyUnitPartsListApi = async () => {
           date: blueprintDate,
         },
       };
-      console.log(part);
-      console.log(isAssemblyUnitPart(part));
 
       if (isAssemblyUnitPart(part)) parts.push(part);
     });
 
     return parts;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const getAssemblyUnitPartApi = async (partId: string) => {
+  try {
+    const docRef = doc(db, "assemblyUnitParts", partId);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+
+    if (!data) throw Error("No data");
+
+    const date = data.date.toDate().toISOString();
+    const blueprintDate = data.blueprint.date.toDate().toISOString();
+
+    const part = {
+      ...data,
+      date,
+      blueprint: {
+        ...data.blueprint,
+        date: blueprintDate,
+      },
+    };
+
+    if (isAssemblyUnitPart(part)) return part;
+    throw Error("No data");
   } catch (error) {
     return Promise.reject(error);
   }
