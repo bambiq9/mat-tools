@@ -44,6 +44,7 @@ const assemblySlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
+    selectUnitPartsList: (state) => state.assemblyUnitPartsList,
     selectUnitPart: (state) => state.assemblyUnitPart,
   },
   extraReducers: (builder) => {
@@ -87,5 +88,5 @@ const assemblySlice = createSlice({
   },
 });
 
-export const { selectUnitPart } = assemblySlice.selectors;
+export const { selectUnitPartsList, selectUnitPart } = assemblySlice.selectors;
 export default assemblySlice;
