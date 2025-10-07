@@ -99,11 +99,8 @@ export const getAssemblyUnitsListApi = async () => {
     const units: TAssemblyUnit[] = [];
     querySnapshot.docs.forEach((doc) => {
       const data = doc.data();
-      const date = data.date.toDate().toISOString();
-      const blueprintDate = (data.blueprint.date = doc
-        .data()
-        .blueprint.date.toDate()
-        .toISOString());
+      const date = data.date;
+      const blueprintDate = (data.blueprint.date = doc.data().blueprint.date);
 
       const unit = {
         ...data,
@@ -130,27 +127,26 @@ export const getAssemblyUnitPartsListApi = async () => {
 
     querySnapshot.docs.forEach((doc) => {
       const data = doc.data();
-      const date = data.date.toDate().toISOString();
-      const blueprintDate = (data.blueprint.date = doc
-        .data()
-        .blueprint.date.toDate()
-        .toISOString());
 
-      const part = {
-        ...data,
-        date,
-        blueprint: {
-          ...data.blueprint,
-          date: blueprintDate,
-        },
-      };
-      console.log(part);
-      console.log(isAssemblyUnitPart(part));
-
-      if (isAssemblyUnitPart(part)) parts.push(part);
+      if (isAssemblyUnitPart(data)) parts.push(data);
     });
 
     return parts;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const getAssemblyUnitPartApi = async (partId: string) => {
+  try {
+    const docRef = doc(db, "assemblyUnitParts", partId);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+
+    if (!data) throw Error("No data");
+
+    if (isAssemblyUnitPart(data)) return data;
+    throw Error("No data");
   } catch (error) {
     return Promise.reject(error);
   }
