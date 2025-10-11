@@ -1,7 +1,7 @@
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { Register } from "@pages/Register";
 import { Login } from "@pages/Login";
-import { Box, Button, Modal } from "@mui/material";
+import { Box, Button, Modal, styled, useTheme } from "@mui/material";
 import { useDispatch } from "@services/store";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
@@ -18,6 +18,7 @@ function App() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -31,6 +32,8 @@ function App() {
     setModalOpen(false);
   };
 
+  const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
+
   return (
     <Box
       sx={{
@@ -41,6 +44,7 @@ function App() {
       }}
     >
       <Header />
+      <Offset />
       <Routes location={background || location}>
         <Route
           path="register"

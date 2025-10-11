@@ -29,11 +29,12 @@ export const SchemeListUI: FC<TSchemeListUIProps> = ({
       <Box>
         <Stack gap={4}>
           <Typography variant="h2">Поиск по чертежам</Typography>
-          <Box sx={{ display: "flex", flexDirection: "row" }}>
+          <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
             <Select
+              defaultValue={null}
               displayEmpty
-              sx={{ width: "30%" }}
-              value={selectedUnitId}
+              sx={{ width: "25%" }}
+              value={selectedUnitId ?? ""}
               onChange={(e) => selectUnitHandler(e.target.value as string)}
             >
               <MenuItem value="">Все детали</MenuItem>
