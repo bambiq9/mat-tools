@@ -99,19 +99,7 @@ export const getAssemblyUnitsListApi = async () => {
     const units: TAssemblyUnit[] = [];
     querySnapshot.docs.forEach((doc) => {
       const data = doc.data();
-      const date = data.date;
-      const blueprintDate = (data.blueprint.date = doc.data().blueprint.date);
-
-      const unit = {
-        ...data,
-        date,
-        blueprint: {
-          ...data.blueprint,
-          date: blueprintDate,
-        },
-      };
-
-      if (isAssemblyUnit(unit)) units.push(unit);
+      if (isAssemblyUnit(data)) units.push(data);
     });
 
     return units;

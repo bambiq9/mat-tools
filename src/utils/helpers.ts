@@ -19,7 +19,7 @@ export const isAssemblyUnit = (data: any): data is TAssemblyUnit => {
     typeof data.id === "string" &&
     typeof data.name === "string" &&
     isAssemblyUnitPartsArray(data.parts) &&
-    isBlueprint(data.blueprint) &&
+    typeof data.blueprint === "string" &&
     isDate(data.date)
   );
 };
@@ -36,10 +36,8 @@ export const isAssemblyUnitPartsArray = (
 
 export const isAssemblyUnitPart = (data: any): data is TAssemblyUnitPart => {
   return (
-    data &&
-    typeof data.id === "string" &&
-    typeof data.name === "string" &&
-    isBlueprint(data.blueprint) &&
-    isDate(data.date)
+    data && typeof data.id === "string" && typeof data.name === "string" // &&
+    // isBlueprint(data.blueprint) &&
+    // isDate(data.date)
   );
 };

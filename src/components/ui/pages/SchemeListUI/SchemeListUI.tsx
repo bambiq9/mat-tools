@@ -3,6 +3,8 @@ import {
   List,
   ListItemButton,
   ListItemText,
+  MenuItem,
+  Select,
   Stack,
   TextField,
   Typography,
@@ -16,19 +18,38 @@ export const SchemeListUI: FC<TSchemeListUIProps> = ({
   parts,
   filter,
   filterHandler,
+  unit,
+  selectedUnitId,
+  selectUnitHandler,
+  unitsList,
   locationState,
 }) => {
   return (
-    <Box>
+    <Box sx={{ width: "60%" }}>
       <Box>
         <Stack gap={4}>
           <Typography variant="h2">Поиск по чертежам</Typography>
-          <TextField
-            value={filter}
-            onChange={(e) => filterHandler(e.target.value)}
-            placeholder="Номер чертежа, название детали..."
-            fullWidth
-          />
+          <Box sx={{ display: "flex", flexDirection: "row" }}>
+            <Select
+              displayEmpty
+              sx={{ width: "30%" }}
+              value={selectedUnitId}
+              onChange={(e) => selectUnitHandler(e.target.value as string)}
+            >
+              <MenuItem value="">Все детали</MenuItem>
+              {unitsList.map((unit) => (
+                <MenuItem value={unit.id} key={unit.id}>
+                  {unit.name}
+                </MenuItem>
+              ))}
+            </Select>
+            <TextField
+              value={filter}
+              onChange={(e) => filterHandler(e.target.value)}
+              placeholder="Номер чертежа, название детали..."
+              fullWidth
+            />
+          </Box>
           <List>
             {parts.map((part) => (
               <ListItemButton

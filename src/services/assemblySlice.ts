@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 import {
   getAssemblyUnitPartApi,
   getAssemblyUnitPartsListApi,
@@ -42,10 +46,19 @@ const initialState: TAssemblyState = {
 const assemblySlice = createSlice({
   name: "assembly",
   initialState,
-  reducers: {},
+  reducers: {
+    setUnit: (state, action: PayloadAction<string>) => {
+      const unit = state.assemblyUnitsList.find(
+        (unit) => unit.id === action.payload,
+      );
+      if (unit) state.assemblyUnit = unit;
+    },
+  },
   selectors: {
     selectUnitPartsList: (state) => state.assemblyUnitPartsList,
     selectUnitPart: (state) => state.assemblyUnitPart,
+    selectUnitsList: (state) => state.assemblyUnitsList,
+    selectUnit: (state) => state.assemblyUnit,
   },
   extraReducers: (builder) => {
     builder
@@ -88,5 +101,11 @@ const assemblySlice = createSlice({
   },
 });
 
-export const { selectUnitPartsList, selectUnitPart } = assemblySlice.selectors;
+export const { setUnit } = assemblySlice.actions;
+export const {
+  selectUnitPartsList,
+  selectUnitPart,
+  selectUnit,
+  selectUnitsList,
+} = assemblySlice.selectors;
 export default assemblySlice;
