@@ -4,22 +4,47 @@ import type { TAssemblyUnitPart } from "@utils/types";
 import { useDispatch, useSelector } from "@services/store";
 import {
   getAssemblyUnitPartsList,
+  getAssemblyUnitsList,
+  selectUnit,
   selectUnitPartsList,
+  selectUnitsList,
+  setUnit,
 } from "@services/assemblySlice";
 import { useLocation } from "react-router-dom";
+import type { SelectChangeEvent } from "@mui/material";
 
 export const SchemeList: FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const parts = useSelector(selectUnitPartsList);
+
+  const initialParts = useSelector(selectUnitPartsList);
+  const unitsList = useSelector(selectUnitsList);
+  const unit = useSelector(selectUnit);
 
   useEffect(() => {
+    dispatch(getAssemblyUnitsList());
     dispatch(getAssemblyUnitPartsList());
   }, []);
 
+  const [parts, setParts] = useState<TAssemblyUnitPart[]>(initialParts);
   const [filter, setFilter] = useState<string>("");
   const [filteredParts, setFilteredParts] =
     useState<TAssemblyUnitPart[]>(parts);
+  const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!selectedUnit) {
+      setParts(initialParts);
+      return;
+    }
+
+    dispatch(setUnit(selectedUnit));
+    const parts = initialParts.filter((currentPart) =>
+      unit?.parts.some((part) => part.partId === currentPart.id),
+    );
+
+    setParts(parts);
+  }, [selectedUnit]);
 
   useEffect(() => {
     const lowerCaseFilter = filter.toLowerCase();
@@ -37,6 +62,10 @@ export const SchemeList: FC = () => {
       parts={filteredParts}
       filter={filter}
       filterHandler={setFilter}
+      unit={unit}
+      selectedUnitId={selectedUnit}
+      unitsList={unitsList}
+      selectUnitHandler={setSelectedUnit}
       locationState={{ background: location }}
     />
   );
