@@ -37,7 +37,6 @@ function App() {
   return (
     <Box
       sx={{
-        width: "100vw",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",

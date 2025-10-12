@@ -21,16 +21,20 @@ export const SchemeList: FC = () => {
   const unitsList = useSelector(selectUnitsList);
   const unit = useSelector(selectUnit);
 
-  useEffect(() => {
-    dispatch(getAssemblyUnitsList());
-    dispatch(getAssemblyUnitPartsList());
-  }, []);
-
   const [parts, setParts] = useState<TAssemblyUnitPart[]>(initialParts);
   const [filter, setFilter] = useState<string>("");
   const [filteredParts, setFilteredParts] =
     useState<TAssemblyUnitPart[]>(parts);
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
+
+  useEffect(() => {
+    dispatch(getAssemblyUnitsList());
+    dispatch(getAssemblyUnitPartsList());
+  }, []);
+
+  useEffect(() => {
+    setParts(initialParts);
+  }, [initialParts]);
 
   useEffect(() => {
     if (!selectedUnit) {
@@ -44,7 +48,7 @@ export const SchemeList: FC = () => {
     );
 
     setParts(parts);
-  }, [selectedUnit]);
+  }, [selectedUnit, unit]);
 
   useEffect(() => {
     const lowerCaseFilter = filter.toLowerCase();
