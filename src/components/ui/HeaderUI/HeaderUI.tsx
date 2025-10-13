@@ -8,7 +8,7 @@ export const HeaderUI: FC<THeaderUIProps> = ({ links, userMenu }) => {
     <AppBar
       color="transparent"
       position="fixed"
-      sx={{ flexDirection: "row", justifyContent: "space-between", p: 2 }}
+      sx={{ flexDirection: "row", justifyContent: "space-between" }}
     >
       <Toolbar sx={{ gap: 2 }}>
         {links.map((link, index) => (

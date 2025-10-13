@@ -59,6 +59,7 @@ const assemblySlice = createSlice({
     selectUnitPart: (state) => state.assemblyUnitPart,
     selectUnitsList: (state) => state.assemblyUnitsList,
     selectUnit: (state) => state.assemblyUnit,
+    selectIsLoading: (state) => state.isLoading,
   },
   extraReducers: (builder) => {
     builder
@@ -107,5 +108,6 @@ export const {
   selectUnitPart,
   selectUnit,
   selectUnitsList,
+  selectIsLoading,
 } = assemblySlice.selectors;
 export default assemblySlice;

@@ -1,5 +1,10 @@
 import { AssemblyUnitPartCardUI } from "@components/ui/AssemblyUnitPartCardUI";
-import { getAssemblyUnitPart, selectUnitPart } from "@services/assemblySlice";
+import { CircularProgress } from "@mui/material";
+import {
+  getAssemblyUnitPart,
+  selectIsLoading,
+  selectUnitPart,
+} from "@services/assemblySlice";
 import { useDispatch, useSelector } from "@services/store";
 import { useEffect, type FC } from "react";
 import { useParams } from "react-router-dom";
@@ -7,11 +12,13 @@ import { useParams } from "react-router-dom";
 export const AssemblyUnitPartCard: FC = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsLoading);
 
   useEffect(() => {
-    console.log(id);
     if (id) dispatch(getAssemblyUnitPart(id));
   }, []);
+
+  // if (isLoading) return <CircularProgress />
 
   const part = useSelector(selectUnitPart);
 
