@@ -6,6 +6,7 @@ import {
 } from 'firebase/auth'
 import { setDoc, doc, getDoc, getDocs, collection } from 'firebase/firestore'
 import type {
+	TInsulationItem,
 	TAssemblyUnit,
 	TAssemblyUnitPart,
 	TInsulationGroup,
@@ -13,7 +14,12 @@ import type {
 	TUser,
 	TUserCredData,
 } from './types'
-import { isAssemblyUnit, isAssemblyUnitPart } from './helpers'
+import {
+	isAssemblyUnit,
+	isAssemblyUnitPart,
+	isInsulationGroup,
+	isInsulationItem,
+} from './helpers'
 
 export const createNewUserApi = async (data: TUser) => {
 	const { id, email, name, role } = data
@@ -129,3 +135,9 @@ export const getAssemblyUnitPartApi = async (partId: string) => {
 		return Promise.reject(error)
 	}
 }
+
+export const getInsulationItemsApi = async () =>
+	fetchCollection<TInsulationItem>('insulationItems', isInsulationItem)
+
+export const getInsulationGroupsApi = async () =>
+	fetchCollection<TInsulationGroup>('insulationGroups', isInsulationGroup)
